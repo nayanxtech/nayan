@@ -6,13 +6,13 @@
 <title>Nayan — a fast, quiet browser for Windows, by NayanX</title>
 <meta name="description" content="Nayan is a free browser for Windows from NayanX. Ads and trackers blocked from the first minute, your AI assistant beside the page, and nothing reported back to us.">
 <link rel="icon" href="img/icon.png">
-<link rel="canonical" href="https://nayanxtech.github.io/nayan/">
+<link rel="canonical" href="https://nayan.suryabharti.in/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NayanX">
 <meta property="og:title" content="Nayan — a fast, quiet browser for Windows">
 <meta property="og:description" content="Free, from NayanX. Ads and trackers blocked, your AI assistant beside the page, nothing reported back to us.">
-<meta property="og:image" content="https://nayanxtech.github.io/nayan/img/poster.jpg">
-<meta property="og:url" content="https://nayanxtech.github.io/nayan/">
+<meta property="og:image" content="https://nayan.suryabharti.in/img/poster.jpg">
+<meta property="og:url" content="https://nayan.suryabharti.in/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#171717">
 </head>
@@ -214,17 +214,18 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
 <div class="strip">
   <div class="wrap">
     <span class="new">New</span>
-    <span>Nayan 1.0 for Windows is here — the browser from <b>NayanX</b>, with Ask AI built in.</span>
+    <span>Nayan 1.1 is here — every chat in one place, from <b>NayanX</b>.</span>
     <a href="#get" data-get>Download now<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
   </div>
 </div>
 
 <header class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Nayan, a browser by NayanX"><span id="logo"></span><b>Nayan</b><span class="ver">1.0</span><span class="by">by <b>NayanX</b></span></a>
+    <a class="brand" href="#top" aria-label="Nayan, a browser by NayanX"><span id="logo"></span><b>Nayan</b><span class="ver">1.1</span><span class="by">by <b>NayanX</b></span></a>
     <nav class="links">
       <a class="nl" href="#features">Features</a>
       <a class="nl" href="#privacy">Privacy</a>
+      <a class="nl" href="#messages">Messages</a>
       <a class="nl" href="#works">Works with</a>
       <a class="nl" href="#nayanx">NayanX</a>
       <a class="nl" href="#get">Download</a>
@@ -236,7 +237,7 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
 <section class="hero" id="top">
   <div class="wrap">
     <div>
-      <span class="eyebrow">From NayanX · Nayan 1.0 for Windows</span>
+      <span class="eyebrow">From NayanX · Nayan 1.1 for Windows</span>
       <h1>A fast, quiet browser for everyday work</h1>
       <p class="lead">Built on Chromium, so every site works. On top of it sits a calm interface, an ad blocker that is on from
         the first minute, and an AI assistant one keystroke away. Made by <b>NayanX</b>.</p>
@@ -244,7 +245,7 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
         <a class="btn" href="#get" data-get><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download now</a>
         <a class="btn alt" href="#features">See features</a>
       </div>
-      <p class="meta">Free · Windows 10 and 11, 64-bit · 121 MB</p>
+      <p class="meta">Free · Windows 10 and 11, 64-bit · 121 MB · version 1.1.1</p>
     </div>
     <div class="vid">
       <video src="demo.mp4" poster="img/poster.jpg" width="1280" height="720" autoplay muted loop playsinline preload="metadata"
@@ -295,8 +296,8 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
         <a class="link" href="#get" data-get>Get Nayan<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
       </div>
       <div class="shot">
-        <img src="img/ai.png" srcset="img/ai-760.png 760w, img/ai.png 1320w" sizes="(max-width: 900px) 100vw, 640px"
-             width="1320" height="860" loading="lazy" alt="A Wikipedia article with the Nayan side panel open, offering ChatGPT, Gemini, Claude, Copilot and Perplexity.">
+        <img src="img/ai.png" srcset="img/ai-760.png 760w, img/ai.png 1280w" sizes="(max-width: 900px) 100vw, 640px"
+             width="1280" height="720" loading="lazy" alt="A Wikipedia article with the Nayan side panel open, an assistant answering a question about a word from the page.">
       </div>
     </div>
   </div>
@@ -304,7 +305,31 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
 
 <section class="band">
   <div class="wrap">
-    <div class="split rev">
+    <div class="split rev" id="messages">
+      <div class="txt">
+        <span class="eyebrow">Messages</span>
+        <h2>Every chat in one place, beside your work</h2>
+        <p>WhatsApp, Instagram, Telegram, Messenger and nine more live in a rail down the side of the window. They
+          stay signed in and keep running, so the count on the toolbar is always right. Open the Messages tab and
+          three or four of them sit side by side.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sign in once &mdash; no QR code every morning</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Unread counts on the toolbar, even with the panel closed</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>The list starts with what your country actually uses</li>
+        </ul>
+        <a class="link" href="#get" data-get>Get Nayan<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="shot">
+        <img src="img/messages.png" srcset="img/messages-760.png 760w, img/messages.png 1280w" sizes="(max-width: 900px) 100vw, 640px"
+             width="1280" height="720" loading="lazy" alt="The Nayan Messages tab with WhatsApp, Instagram and Telegram open side by side in three columns.">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band grey">
+  <div class="wrap">
+    <div class="split">
       <div class="txt">
         <span class="eyebrow">Meaning and Translate</span>
         <h2>A word you don’t know, explained in place</h2>
@@ -316,16 +341,16 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
         </ul>
       </div>
       <div class="shot">
-        <img src="img/panel.png" srcset="img/panel-760.png 760w, img/panel.png 1320w" sizes="(max-width: 900px) 100vw, 640px"
-             width="1320" height="860" loading="lazy" alt="The word monsoon selected on Wikipedia, with its dictionary meaning shown in the Nayan side panel.">
+        <img src="img/panel.png" srcset="img/panel-760.png 760w, img/panel.png 1280w" sizes="(max-width: 900px) 100vw, 640px"
+             width="1280" height="720" loading="lazy" alt="A word selected on Wikipedia, with Copy, Ask AI, Search, Meaning, Hindi and Listen offered right under it.">
       </div>
     </div>
   </div>
 </section>
 
-<section class="band grey">
+<section class="band">
   <div class="wrap">
-    <div class="split">
+    <div class="split rev">
       <div class="txt">
         <span class="eyebrow">Screenshots</span>
         <h2>Capture, mark up, then save where you want</h2>
@@ -337,14 +362,14 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
         </ul>
       </div>
       <div class="shot">
-        <img src="img/editor.png" srcset="img/editor-760.png 760w, img/editor.png 1320w" sizes="(max-width: 900px) 100vw, 640px"
-             width="1320" height="860" loading="lazy" alt="The Nayan screenshot editor with a red box, an arrow, a numbered marker and a blue text label on a captured page.">
+        <img src="img/editor.png" srcset="img/editor-760.png 760w, img/editor.png 1280w" sizes="(max-width: 900px) 100vw, 640px"
+             width="1280" height="720" loading="lazy" alt="The Nayan screenshot editor: a paragraph captured from Wikipedia with a yellow highlight, a red arrow and a label.">
       </div>
     </div>
   </div>
 </section>
 
-<section class="band" id="privacy">
+<section class="band grey" id="privacy">
   <div class="wrap">
     <div class="split rev">
       <div class="txt">
@@ -376,7 +401,7 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
     <div class="head center"><h2>Details you feel every day</h2><p>The parts of a browser nobody praises until they are done right.</p></div>
     <div class="cards">
       <article class="card">
-        <div class="thumb"><img src="img/suggest-760.png" width="760" height="495" loading="lazy" alt="Search suggestions appearing under the Nayan address bar as a word is typed."></div>
+        <div class="thumb"><img src="img/suggest-760.png" width="760" height="428" loading="lazy" alt="Search suggestions appearing under the Nayan address bar as a word is typed."></div>
         <div class="cap"><h4>Suggestions as you type</h4><p>Live suggestions from your search engine, in Hindi too, with your own history beside them.</p></div>
       </article>
       <article class="card">
@@ -384,7 +409,7 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
         <div class="cap"><h4>Downloads that stay put</h4><p>Speed, time left and a magnifier to open the folder. Screenshots and saved pages land here too.</p></div>
       </article>
       <article class="card">
-        <div class="thumb"><img src="img/start-760.png" width="760" height="495" loading="lazy" alt="The Nayan Start Page with shortcuts and the pages you had open."></div>
+        <div class="thumb"><img src="img/start-760.png" width="760" height="428" loading="lazy" alt="The Nayan Start Page: one search box and round shortcuts, nothing else."></div>
         <div class="cap"><h4>Sleeping tabs and Turbo</h4><p>Unused tabs give their memory back, and pages are fetched a moment before you click.</p></div>
       </article>
     </div>
