@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nayan — a fast, quiet browser for Windows, by NayanX</title>
+<meta name="description" content="Nayan is a free browser for Windows from NayanX. Ads and trackers blocked from the first minute, your AI assistant beside the page, and nothing reported back to us.">
+<link rel="icon" href="img/icon.png">
+<link rel="canonical" href="https://nayanxtech.github.io/nayan/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NayanX">
+<meta property="og:title" content="Nayan — a fast, quiet browser for Windows">
+<meta property="og:description" content="Free, from NayanX. Ads and trackers blocked, your AI assistant beside the page, nothing reported back to us.">
+<meta property="og:image" content="https://nayanxtech.github.io/nayan/img/poster.jpg">
+<meta property="og:url" content="https://nayanxtech.github.io/nayan/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#171717">
+</head>
+<body>
+<style>
+/* Microsoft's own look: Segoe UI, white and light-grey bands, one blue, square-ish edges, thin rules, no gradients
+   except the product's own logo. Layout: thin top bar, two-column hero, alternating bands, card row, download band. */
+:root {
+  --bg: #FFFFFF; --band: #F2F2F2; --band-2: #FAFAFA;
+  --ink: #171717; --ink-2: #505050; --ink-3: #6E6E6E; --line: #E3E3E3; --line-2: #D1D1D1;
+  --blue: #0067B8; --blue-dark: #005499; --blue-light: #EFF6FC;
+  --f: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --fd: "Segoe UI Variable Display", "Segoe UI Semibold", "Segoe UI", system-ui, Arial, sans-serif;
+  --brand: "Segoe UI Variable Display", "Segoe UI", system-ui, Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.6 var(--f); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { max-width: 100%; display: block; height: auto; }
+a { color: var(--blue); }
+h1, h2, h3, h4 { margin: 0; font-family: var(--fd); font-weight: 600; letter-spacing: -.015em; line-height: 1.16; text-wrap: balance; }
+p { margin: 0; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.eyebrow { display: block; font: 600 13px var(--f); color: var(--ink-3); letter-spacing: .02em; margin-bottom: 10px; }
+
+/* ---------- announcement strip + top bar ---------- */
+.strip { background: #171717; color: #fff; font-size: 13px; }
+.strip .wrap { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 36px; padding-block: 7px; text-align: center; flex-wrap: wrap; }
+.strip .new { font-weight: 600; padding: 2px 8px; border-radius: 2px; background: linear-gradient(100deg, #FF9F55, #F25A82 40%, #8B5CF6 75%, #3FC6FF); }
+.strip a { color: #fff; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+.strip a:hover { text-decoration: underline; }
+.strip svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: rgba(255,255,255,.88); backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--line); transition: box-shadow .2s, background .2s; }
+.nav.stuck { box-shadow: 0 1px 10px rgba(0,0,0,.07); background: rgba(255,255,255,.95); }
+.nav::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; opacity: 0;
+  background: linear-gradient(100deg, #FF9F55, #F25A82 32%, #8B5CF6 66%, #3FC6FF); transition: opacity .25s; }
+.nav.stuck::after { opacity: 1; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 31; background: #171717; }
+.nav .wrap { display: flex; align-items: center; gap: 28px; height: 60px; }
+.brand { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); }
+.brand svg { height: 25px; width: auto; overflow: visible; }
+.brand b { font: 600 18.5px/1 var(--brand); letter-spacing: -.015em; }
+.brand .ver { font: 600 10.5px/1 var(--f); color: var(--ink-3); border: 1px solid var(--line-2); border-radius: 2px; padding: 3px 5px; margin-left: 2px; }
+.links { margin-left: auto; display: flex; gap: 4px; align-items: center; }
+.links a.nl { text-decoration: none; font-size: 14px; font-weight: 600; color: var(--ink-2); padding: 8px 12px; position: relative; }
+.links a.nl:hover { color: var(--ink); }
+.links a.nl::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 2px; height: 2px; background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform .22s; }
+.links a.nl:hover::after { transform: scaleX(1); }
+.links .btn { margin-left: 14px; }
+@media (max-width: 860px) { .links a.nl { display: none; } .links .btn { margin-left: 0; } .brand .ver { display: none; } }
+
+/* ---------- works with (thin band) ---------- */
+.avail { background: var(--bg); border-bottom: 1px solid var(--line); }
+.avail .wrap { display: flex; align-items: center; justify-content: center; gap: clamp(18px, 3.4vw, 46px); padding-block: 22px; flex-wrap: wrap; }
+.avail .lbl { font-size: 13px; font-weight: 600; color: var(--ink-3); letter-spacing: .02em; white-space: nowrap; }
+.avail .logos { display: flex; align-items: center; gap: clamp(16px, 2.6vw, 38px); flex-wrap: wrap; justify-content: center; }
+.avail .one { display: flex; align-items: center; gap: 9px; filter: grayscale(1); opacity: .62; transition: filter .25s, opacity .25s, transform .25s; }
+.avail .one:hover { filter: none; opacity: 1; transform: translateY(-1px); }
+.avail .one img { width: 24px; height: 24px; object-fit: contain; }
+.avail .one span { font-size: 14px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+@media (max-width: 620px) { .avail .one span { display: none; } .avail .one img { width: 28px; height: 28px; } }
+
+/* ---------- buttons ---------- */
+.btn { position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 0 26px; border: 1px solid transparent; border-radius: 2px;
+  font: 600 15px var(--f); color: #fff; background: var(--blue); cursor: pointer; text-decoration: none; transition: background .15s, box-shadow .2s, transform .12s; }
+.btn:hover { background: var(--blue-dark); box-shadow: 0 6px 18px -8px rgba(0,103,184,.8); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn::after { content: ""; position: absolute; top: 0; bottom: 0; width: 55%; left: -70%; transform: skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent); transition: left .6s; }
+.btn:hover::after { left: 130%; }
+.btn.sm { min-height: 32px; padding: 0 16px; font-size: 13.5px; }
+.btn.alt { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn.alt:hover { background: rgba(0,0,0,.05); }
+.btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+a:focus-visible, .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.link { display: inline-flex; align-items: center; gap: 7px; color: var(--blue); font-weight: 600; text-decoration: none; font-size: 14.5px; }
+.link:hover { text-decoration: underline; }
+.link svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- hero ---------- */
+.hero { background: var(--band-2); border-bottom: 1px solid var(--line); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding-block: clamp(40px, 5.5vw, 72px); }
+.hero h1 { font-size: clamp(32px, 4.4vw, 52px); font-weight: 600; margin-bottom: 16px; }
+.hero p.lead { color: var(--ink-2); font-size: clamp(15px, 1.4vw, 17px); margin-bottom: 26px; }
+.hero .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero .meta { margin-top: 14px; color: var(--ink-3); font-size: 13px; }
+.shot { border: 1px solid var(--line-2); background: #fff; position: relative; }
+.hero .shot { box-shadow: 0 24px 60px -30px rgba(23,23,23,.4); }
+.hero .shot::before { content: ""; position: absolute; inset: -28px -20px -10px; z-index: -1; border-radius: 50%; filter: blur(60px);
+  background: radial-gradient(60% 60% at 30% 40%, rgba(124,77,255,.22), transparent 70%), radial-gradient(60% 60% at 75% 55%, rgba(63,198,255,.22), transparent 70%); }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+
+/* ---------- bands ---------- */
+.band { border-bottom: 1px solid var(--line); }
+.band.grey { background: var(--band); }
+.band .wrap { padding-block: clamp(44px, 5.5vw, 76px); }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(26px, 4.5vw, 64px); align-items: center; }
+.split.rev .txt { order: 2; }
+.split h2 { font-size: clamp(24px, 2.9vw, 34px); margin-bottom: 14px; }
+.split > .txt > p { color: var(--ink-2); margin-bottom: 18px; }
+.split ul { margin: 0 0 20px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.split li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; font-size: 14.5px; color: var(--ink-2); }
+.split li svg { width: 16px; height: 16px; margin-top: 4px; stroke: var(--blue); fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; } .split.rev .txt { order: 0; } }
+
+/* ---------- section heading ---------- */
+.head { max-width: 740px; margin-bottom: clamp(28px, 4vw, 44px); }
+.head h2 { font-size: clamp(24px, 3vw, 36px); margin-bottom: 12px; }
+.head p { color: var(--ink-2); }
+.center { text-align: center; margin-left: auto; margin-right: auto; }
+
+/* ---------- stats ---------- */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.stats div { background: var(--bg); padding: 22px 16px; text-align: center; }
+.stats b { display: block; font: 600 23px var(--fd); letter-spacing: -.02em;
+  background: linear-gradient(100deg, #FF9F55, #F25A82 35%, #8B5CF6 70%, #3FC6FF); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.stats div { transition: background .2s; } .stats div:hover { background: var(--band-2); }
+.stats span { font-size: 13px; color: var(--ink-2); }
+@media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- cards ---------- */
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.card { background: var(--bg); border: 1px solid var(--line); display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s, border-color .2s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 16px 34px -20px rgba(23,23,23,.4); border-color: var(--line-2); }
+.card .thumb { border-bottom: 1px solid var(--line); overflow: hidden; aspect-ratio: 16/10; background: var(--band); }
+.card .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+.card .cap { padding: 18px 20px 22px; }
+.card h4 { font-size: 16.5px; margin-bottom: 6px; }
+.card p { color: var(--ink-2); font-size: 14px; }
+@media (max-width: 900px) { .cards { grid-template-columns: 1fr; } }
+
+/* ---------- privacy list ---------- */
+.plist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; margin-top: clamp(26px, 3.5vw, 40px); }
+.pitem { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
+.pitem .ic { width: 36px; height: 36px; display: grid; place-items: center; background: var(--blue-light); border: 1px solid #CFE4F7; }
+.pitem svg { width: 18px; height: 18px; stroke: var(--blue); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pitem b { display: block; font-weight: 600; font-size: 15.5px; margin-bottom: 2px; }
+.pitem span { color: var(--ink-2); font-size: 14px; }
+@media (max-width: 760px) { .plist { grid-template-columns: 1fr; } }
+
+/* ---------- download ---------- */
+.get { text-align: center; }
+.get h2 { font-size: clamp(26px, 3.2vw, 38px); margin-bottom: 14px; }
+.get p { color: var(--ink-2); max-width: 52ch; margin: 0 auto 26px; }
+.specs { display: flex; gap: 0; justify-content: center; flex-wrap: wrap; margin-top: 26px; border: 1px solid var(--line); max-width: 760px; margin-left: auto; margin-right: auto; }
+.specs span { flex: 1 1 150px; padding: 12px 10px; font-size: 13px; color: var(--ink-2); border-left: 1px solid var(--line); background: var(--bg); }
+.specs span:first-child { border-left: 0; }
+.specs b { display: block; color: var(--ink); font-weight: 600; font-size: 14px; }
+.note { margin-top: 20px; font-size: 13px; color: var(--ink-3); }
+.warn { max-width: 640px; margin: 18px auto 0; padding: 14px 18px; border: 1px solid #F2D98E; background: #FEF8E7;
+  font-size: 13px; line-height: 1.55; color: #5C4813; text-align: left; }
+.warn b { color: #3D2F06; }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: #171717; color: #fff;
+  padding: 11px 18px; border-radius: 2px; font-size: 14px; z-index: 50; }
+
+/* ---------- footer ---------- */
+footer { background: var(--band); color: var(--ink-2); font-size: 13px; }
+footer .wrap { padding-block: 26px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+footer a { color: var(--ink-2); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
+/* images lift a little so the page feels alive without moving much */
+.split .shot { transition: transform .25s, box-shadow .25s; box-shadow: 0 10px 30px -22px rgba(23,23,23,.5); }
+.split .shot:hover { transform: translateY(-3px); box-shadow: 0 20px 44px -24px rgba(23,23,23,.45); }
+.head h2 .u { display: inline-block; background: linear-gradient(180deg, transparent 72%, #FFE08A 72%); }
+/* ---------- the maker's name, beside the product's ---------- */
+.by { display: inline-flex; align-items: center; gap: 5px; font: 600 11px var(--f); letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-3); border-left: 1px solid var(--line-2); margin-left: 9px; padding-left: 9px; white-space: nowrap; }
+.by b { color: var(--ink); font-weight: 700; letter-spacing: .02em; }
+@media (max-width: 700px) { .nav .by { display: none; } }
+
+/* ---------- film ---------- */
+.vid { position: relative; border: 1px solid var(--line-2); background: #0B0D12; overflow: hidden; }
+.vid video { display: block; width: 100%; height: auto; }
+.hero .vid { box-shadow: 0 26px 64px -30px rgba(23,23,23,.45); }
+.hero .vid::before { content: ""; position: absolute; inset: -30px -22px -12px; z-index: -1; border-radius: 50%; filter: blur(62px);
+  background: radial-gradient(60% 60% at 30% 40%, rgba(124,77,255,.22), transparent 70%), radial-gradient(60% 60% at 75% 55%, rgba(63,198,255,.22), transparent 70%); }
+.vid .tag { position: absolute; right: 0; top: 0; display: flex; align-items: center; gap: 7px; padding: 7px 12px;
+  background: rgba(11,13,18,.72); color: #fff; font: 600 12px var(--f); letter-spacing: .02em; }
+.vid .dot { width: 7px; height: 7px; border-radius: 50%; background: #FF4D4D; animation: blip 1.6s infinite; }
+@keyframes blip { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+
+/* ---------- the company band ---------- */
+.nx .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: clamp(26px, 4.5vw, 64px); align-items: center; }
+.nx h2 { font-size: clamp(24px, 3vw, 34px); margin-bottom: 14px; }
+.nx p { color: var(--ink-2); margin-bottom: 14px; }
+.nx .mark { display: inline-flex; align-items: baseline; font: 700 34px/1 var(--fd); letter-spacing: -.02em; margin-bottom: 16px; }
+.nx .mark i { font-style: normal; background: linear-gradient(100deg, #FF9F55, #F25A82 35%, #8B5CF6 70%, #3FC6FF);
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+.nx .film { border: 1px solid var(--line-2); overflow: hidden; background: #F4F1ED; }
+.nx .film video { display: block; width: 100%; height: auto; }
+@media (max-width: 900px) { .nx .wrap { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) { *, .btn::after { transition: none !important; } }
+</style>
+
+<div class="strip">
+  <div class="wrap">
+    <span class="new">New</span>
+    <span>Nayan 1.0 for Windows is here — the browser from <b>NayanX</b>, with Ask AI built in.</span>
+    <a href="#get" data-get>Download now<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+  </div>
+</div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Nayan, a browser by NayanX"><span id="logo"></span><b>Nayan</b><span class="ver">1.0</span><span class="by">by <b>NayanX</b></span></a>
+    <nav class="links">
+      <a class="nl" href="#features">Features</a>
+      <a class="nl" href="#privacy">Privacy</a>
+      <a class="nl" href="#works">Works with</a>
+      <a class="nl" href="#nayanx">NayanX</a>
+      <a class="nl" href="#get">Download</a>
+      <a class="btn sm" href="#get" data-get>Download for Windows</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">From NayanX · Nayan 1.0 for Windows</span>
+      <h1>A fast, quiet browser for everyday work</h1>
+      <p class="lead">Built on Chromium, so every site works. On top of it sits a calm interface, an ad blocker that is on from
+        the first minute, and an AI assistant one keystroke away. Made by <b>NayanX</b>.</p>
+      <div class="cta">
+        <a class="btn" href="#get" data-get><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download now</a>
+        <a class="btn alt" href="#features">See features</a>
+      </div>
+      <p class="meta">Free · Windows 10 and 11, 64-bit · 121 MB</p>
+    </div>
+    <div class="vid">
+      <video src="demo.mp4" poster="img/poster.jpg" width="1280" height="720" autoplay muted loop playsinline preload="metadata"
+             aria-label="Nayan searching for Mahatma Gandhi, opening Wikipedia, asking the AI about a word, taking a screenshot of a paragraph and switching to dark mode."></video>
+      <span class="tag"><span class="dot"></span>Recorded in Nayan, on a real PC</span>
+    </div>
+  </div>
+</section>
+
+<section class="avail" id="works">
+  <div class="wrap">
+    <span class="lbl">Works with your AI assistant</span>
+    <div class="logos">
+      <span class="one"><img src="img/ai/chatgpt-128.png" width="128" height="128" loading="lazy" alt=""><span>ChatGPT</span></span>
+      <span class="one"><img src="img/ai/gemini-128.png" width="128" height="128" loading="lazy" alt=""><span>Gemini</span></span>
+      <span class="one"><img src="img/ai/claude-128.png" width="128" height="128" loading="lazy" alt=""><span>Claude</span></span>
+      <span class="one"><img src="img/ai/copilot-128.png" width="128" height="128" loading="lazy" alt=""><span>Copilot</span></span>
+      <span class="one"><img src="img/ai/perplexity-128.png" width="128" height="128" loading="lazy" alt=""><span>Perplexity</span></span>
+    </div>
+  </div>
+</section>
+
+<div class="band"><div class="wrap" style="padding-block:clamp(28px,3.5vw,44px)">
+  <div class="stats">
+    <div><b>Chromium 152</b><span>Every site works</span></div>
+    <div><b>100 / 100</b><span>Ad-block test score</span></div>
+    <div><b>0.5 s</b><span>Typical first paint</span></div>
+    <div><b>Free</b><span>No account, no ads</span></div>
+  </div>
+</div></div>
+
+<section class="band grey" id="features">
+  <div class="wrap">
+    <div class="head center">
+      <h2>Everything <span class="u">beside</span> the page, nothing on top of it</h2>
+      <p>Answers, screenshots and downloads happen next to what you are reading, so you never lose your place.</p>
+    </div>
+    <div class="split">
+      <div class="txt">
+        <span class="eyebrow">Ask AI</span>
+        <h2>Your AI assistant, beside the page</h2>
+        <p>Select any text and press Ask AI. Your assistant opens in a panel next to the article with the question already filled in. Choose ChatGPT, Gemini, Claude, Copilot or Perplexity and sign in with your own account.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Nayan never sees your password or your chats</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Change the assistant any time in Settings</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Nothing is sent until you ask something</li>
+        </ul>
+        <a class="link" href="#get" data-get>Get Nayan<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="shot">
+        <img src="img/ai.png" srcset="img/ai-760.png 760w, img/ai.png 1320w" sizes="(max-width: 900px) 100vw, 640px"
+             width="1320" height="860" loading="lazy" alt="A Wikipedia article with the Nayan side panel open, offering ChatGPT, Gemini, Claude, Copilot and Perplexity.">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="split rev">
+      <div class="txt">
+        <span class="eyebrow">Meaning and Translate</span>
+        <h2>A word you don’t know, explained in place</h2>
+        <p>Highlight a word for its meaning, a paragraph for a Hindi or English translation. The answer slides in beside the page and closes when you are done. The page never moves.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Hindi and English, both ways</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Copy, Search and Listen on the same bar</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Press Esc and it is gone</li>
+        </ul>
+      </div>
+      <div class="shot">
+        <img src="img/panel.png" srcset="img/panel-760.png 760w, img/panel.png 1320w" sizes="(max-width: 900px) 100vw, 640px"
+             width="1320" height="860" loading="lazy" alt="The word monsoon selected on Wikipedia, with its dictionary meaning shown in the Nayan side panel.">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band grey">
+  <div class="wrap">
+    <div class="split">
+      <div class="txt">
+        <span class="eyebrow">Screenshots</span>
+        <h2>Capture, mark up, then save where you want</h2>
+        <p>Take the visible screen, a selected area, or the whole page scrolled to the end. Nothing is saved behind your back: the picture opens in an editor where you can crop, draw, add text and blur anything private.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Arrows, boxes, numbers, highlighter and blur</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Save as PNG or JPG, in the folder you choose</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Or copy it straight to the clipboard</li>
+        </ul>
+      </div>
+      <div class="shot">
+        <img src="img/editor.png" srcset="img/editor-760.png 760w, img/editor.png 1320w" sizes="(max-width: 900px) 100vw, 640px"
+             width="1320" height="860" loading="lazy" alt="The Nayan screenshot editor with a red box, an arrow, a numbered marker and a blue text label on a captured page.">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="privacy">
+  <div class="wrap">
+    <div class="split rev">
+      <div class="txt">
+        <span class="eyebrow">Privacy and security</span>
+        <h2>Nothing is given away quietly</h2>
+        <p>Most browsers hand your camera, microphone and location to a site the moment it asks. Nayan asks you first, every time, and remembers your answer for that site alone.</p>
+        <a class="link" href="#get" data-get>Download Nayan<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="shot">
+        <img src="img/perm.png" srcset="img/perm-760.png 760w, img/perm.png 1320w" sizes="(max-width: 900px) 100vw, 640px"
+             width="1320" height="860" loading="lazy" alt="Nayan asking whether bbc.com may know your location, with Block and Allow buttons under the address bar.">
+      </div>
+    </div>
+    <div class="plist">
+      <div class="pitem"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 8.5a2 2 0 0 1 2-2h2l1.5-2h5L16 6.5h2a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.5"/></svg></span>
+        <div><b>You decide, site by site</b><span>Camera, microphone, location and notifications are only given after you allow them.</span></div></div>
+      <div class="pitem"><span class="ic"><svg viewBox="0 0 24 24"><rect x="5.5" y="10.5" width="13" height="9.5" rx="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg></span>
+        <div><b>https first, always</b><span>Plain http is upgraded before the page loads. A site without it gets a clear warning, not a silent risk.</span></div></div>
+      <div class="pitem"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3.5M15.5 12v2.5"/></svg></span>
+        <div><b>Passwords stay on this PC</b><span>Saved with Windows’ own protection, tied to your Windows account, never uploaded anywhere.</span></div></div>
+      <div class="pitem"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/></svg></span>
+        <div><b>Ads and trackers blocked from minute one</b><span>Full block lists are built in, YouTube video ads included. Nothing to install, nothing to switch on.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="band grey">
+  <div class="wrap">
+    <div class="head center"><h2>Details you feel every day</h2><p>The parts of a browser nobody praises until they are done right.</p></div>
+    <div class="cards">
+      <article class="card">
+        <div class="thumb"><img src="img/suggest-760.png" width="760" height="495" loading="lazy" alt="Search suggestions appearing under the Nayan address bar as a word is typed."></div>
+        <div class="cap"><h4>Suggestions as you type</h4><p>Live suggestions from your search engine, in Hindi too, with your own history beside them.</p></div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="img/downloads-760.png" width="760" height="495" loading="lazy" alt="The Nayan downloads menu in the corner of the window, listing finished files."></div>
+        <div class="cap"><h4>Downloads that stay put</h4><p>Speed, time left and a magnifier to open the folder. Screenshots and saved pages land here too.</p></div>
+      </article>
+      <article class="card">
+        <div class="thumb"><img src="img/start-760.png" width="760" height="495" loading="lazy" alt="The Nayan Start Page with shortcuts and the pages you had open."></div>
+        <div class="cap"><h4>Sleeping tabs and Turbo</h4><p>Unused tabs give their memory back, and pages are fetched a moment before you click.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band nx" id="nayanx">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">The company</span>
+      <div class="mark"><i>Nayan</i>X</div>
+      <h2>Nayan is built by NayanX</h2>
+      <p>NayanX makes software people keep open all day: quick, quiet and private by default. Nayan is our browser &mdash;
+        the first thing we are giving everyone, free, with no account and nothing reported back to us.</p>
+      <p>One promise runs through everything we build: your computer is yours. What you read, type and save stays on it.</p>
+      <a class="link" href="#get" data-get>Download Nayan<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="film">
+      <video src="intro.mp4" width="1280" height="720" autoplay muted loop playsinline preload="metadata"
+             aria-label="The Nayan logo being drawn, from NayanX."></video>
+    </div>
+  </div>
+</section>
+
+<section class="band get" id="get">
+  <div class="wrap">
+    <h2>Get Nayan for Windows</h2>
+    <p>One installer, no account, no sign-up. Works on Windows 10 and Windows 11, 64-bit.</p>
+    <a class="btn" href="#get" data-get><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download now</a>
+    <div class="specs">
+      <span><b>Windows 10 / 11</b>64-bit</span>
+      <span><b>121 MB</b>Installer</span>
+      <span><b>Chromium 152</b>Engine</span>
+      <span><b>Free</b>No account</span>
+    </div>
+    <p class="note">Already using Chrome or Edge? Your bookmarks and history can come across on the first run.</p>
+    <div class="warn">
+      <b>Windows may show a blue &ldquo;Windows protected your PC&rdquo; screen.</b>
+      Nayan is young, so Windows does not know it yet. Click <b>More info</b>, then <b>Run anyway</b>.
+      Nayan updates itself after that, so you only see this once.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="brand"><span id="logo2"></span><b style="font-size:15px">Nayan</b></span>
+    <span>© 2026 <b style="color:var(--ink)">NayanX</b> · Nayan Browser</span>
+    <span class="right"><a href="#features">Features</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="#nayanx">NayanX</a><a href="#get">Download</a></span>
+  </div>
+</footer>
+
+<script>
+"use strict";
+// The installer always lives at the newest GitHub release, under the same name, so this link never goes stale.
+const DOWNLOAD_URL = "https://github.com/nayanxtech/nayan/releases/latest/download/Nayan-Setup.exe";
+
+const LOGO = `<svg viewBox="10 4 80 92" aria-hidden="true"><defs>
+<linearGradient id="la" gradientUnits="userSpaceOnUse" x1="0" y1="19" x2="0" y2="95"><stop offset="0" stop-color="#F0547A"/><stop offset=".45" stop-color="#9B3FE6"/><stop offset="1" stop-color="#5B2BE0"/></linearGradient>
+<linearGradient id="lb" gradientUnits="userSpaceOnUse" x1="0" y1="5" x2="0" y2="81"><stop offset="0" stop-color="#5A35F2"/><stop offset=".55" stop-color="#2F7BFF"/><stop offset="1" stop-color="#4FD2FF"/></linearGradient>
+<linearGradient id="lc" gradientUnits="userSpaceOnUse" x1="12.74" y1="22.68" x2="50" y2="50"><stop offset="0" stop-color="#FFB066"/><stop offset="1" stop-color="#F25A82"/></linearGradient>
+<linearGradient id="ld" gradientUnits="userSpaceOnUse" x1="50" y1="50" x2="87.26" y2="77.32"><stop offset="0" stop-color="#7C4DFF"/><stop offset="1" stop-color="#3FC6FF"/></linearGradient></defs>
+<g stroke-linecap="round" fill="none"><line x1="20" y1="86" x2="20" y2="28" stroke="url(#la)" stroke-width="18"/><line x1="80" y1="72" x2="80" y2="14" stroke="url(#lb)" stroke-width="18"/></g>
+<path d="M14.68 35.26 A9 9 0 0 1 25.32 20.74 L50 50 Z" fill="url(#lc)"/><path d="M85.32 64.74 A9 9 0 0 1 74.68 79.26 L50 50 Z" fill="url(#ld)"/>
+<path d="M20 28 L14.68 35.26 L50 50 Z" fill="#3A0A3A" fill-opacity=".08"/><path d="M80 72 L85.32 64.74 L50 50 Z" fill="#0A1A4A" fill-opacity=".12"/></svg>`;
+document.getElementById("logo").innerHTML = LOGO;
+document.getElementById("logo2").innerHTML = LOGO;
+
+const nav = document.getElementById("nav");
+const onScroll = () => nav.classList.toggle("stuck", window.scrollY > 8);
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+let toastT = null;
+function toast(msg) {
+  let t = document.querySelector(".toast");
+  if (!t) { t = document.createElement("div"); t.className = "toast"; document.body.appendChild(t); }
+  t.textContent = msg; clearTimeout(toastT); toastT = setTimeout(() => t.remove(), 3200);
+}
+// the films only run while they are on the screen, so the page stays light
+const films = [...document.querySelectorAll("video")];
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver((es) => {
+    for (const e of es) { const v = e.target; if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }
+  }, { threshold: .18 });
+  for (const v of films) io.observe(v);
+}
+for (const v of films) v.addEventListener("click", () => { if (v.paused) v.play().catch(() => {}); else v.pause(); });
+
+for (const b of document.querySelectorAll("[data-get]")) {
+  if (DOWNLOAD_URL) { b.href = DOWNLOAD_URL; b.setAttribute("download", ""); continue; }
+  b.addEventListener("click", (e) => { if (b.closest("#get")) { e.preventDefault(); toast("The download link is not set yet."); } });
+}
+</script>
+
+</body>
+</html>
