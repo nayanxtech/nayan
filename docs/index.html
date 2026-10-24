@@ -233,14 +233,14 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
 <div class="strip">
   <div class="wrap">
     <span class="new">New</span>
-    <span>Nayan 1.9 is here — a new Start Page, and Nayan in your own language, from <b>NayanX</b>.</span>
+    <span>Nayan <span data-v2>1.9</span> is here — a new Start Page, and Nayan in your own language, from <b>NayanX</b>.</span>
     <a href="#get" data-get>Download now<svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></a>
   </div>
 </div>
 
 <header class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Nayan, a browser by NayanX"><span id="logo"></span><b>Nayan</b><span class="ver">1.9</span><span class="by">by <b>NayanX</b></span></a>
+    <a class="brand" href="#top" aria-label="Nayan, a browser by NayanX"><span id="logo"></span><b>Nayan</b><span class="ver" data-v2>1.9</span><span class="by">by <b>NayanX</b></span></a>
     <nav class="links">
       <a class="nl" href="#features">Features</a>
       <a class="nl" href="#privacy">Privacy</a>
@@ -256,7 +256,7 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
 <section class="hero" id="top">
   <div class="wrap">
     <div>
-      <span class="eyebrow">From NayanX · Nayan 1.1 for Windows</span>
+      <span class="eyebrow">From NayanX · Nayan <span data-v2>1.9</span> for Windows</span>
       <h1>A fast, quiet browser for everyday work</h1>
       <p class="lead">Built on Chromium, so every site works. On top of it sits a calm interface, an ad blocker that is on from
         the first minute, and an AI assistant one keystroke away. Made by <b>NayanX</b>.</p>
@@ -264,7 +264,7 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
         <a class="btn" href="#get" data-get><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download now</a>
         <a class="btn alt" href="#features">See features</a>
       </div>
-      <p class="meta">Free · Windows 10 and 11, 64-bit · 121 MB · version 1.9.0</p>
+      <p class="meta">Free · Windows 10 and 11, 64-bit · 121 MB · version <span data-v3>1.9.1</span></p>
     </div>
     <div class="vid">
       <video src="demo.mp4" poster="img/poster.jpg" width="1280" height="720" autoplay muted loop playsinline preload="metadata"
@@ -561,5 +561,19 @@ for (const b of document.querySelectorAll("[data-get]")) {
 }
 </script>
 
+<script>
+/* Version yahan haath se likha jaata tha, aur isi wajah se site kabhi 1.1.6 par ruk gayi
+   thi jabki download 1.9 de raha tha. Ab asli release se bhar jaata hai; na chale to
+   HTML me likha hua waise ka waisa rehta hai - kabhi khali nahi dikhta. */
+fetch("https://api.github.com/repos/nayanxtech/nayan/releases/latest")
+  .then(r => r.ok ? r.json() : null)
+  .then(j => {
+    const v = j && String(j.tag_name || "").replace(/^v/, "");
+    if (!/^\d+\.\d+\.\d+$/.test(v || "")) return;
+    document.querySelectorAll("[data-v3]").forEach(e => e.textContent = v);
+    document.querySelectorAll("[data-v2]").forEach(e => e.textContent = v.split(".").slice(0, 2).join("."));
+  })
+  .catch(() => {});
+</script>
 </body>
 </html>
