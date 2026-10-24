@@ -228,6 +228,33 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
 .pick .sz { display: block; margin-top: 10px; font-size: 12.5px; color: var(--ink-2, #616161); }
 .bothnote { max-width: 940px; margin: 18px auto 0; text-align: left; font-size: 13.5px; line-height: 1.6; color: var(--ink-2, #616161); }
 @media (max-width: 860px) { .picks { grid-template-columns: 1fr; } }
+
+/* --- Download chunne wala panna --- */
+.dlg { position: fixed; inset: 0; z-index: 90; display: none; place-items: center; padding: 20px;
+  background: rgba(23,23,23,.55); }
+.dlg.on { display: grid; }
+.dlg .sheet { width: min(760px, 100%); max-height: 90vh; overflow-y: auto; background: var(--bg);
+  border-radius: 8px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.5); padding: 30px 30px 26px; }
+.dlg h3 { margin: 0 0 4px; font-size: 25px; font-weight: 600; letter-spacing: -.015em; }
+.dlg .s { margin: 0 0 20px; color: var(--ink-2, #616161); font-size: 14.5px; }
+.dlg .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.dlg .opt { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 8px; padding: 20px; text-align: left; }
+.dlg .opt.on { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue); }
+.dlg .opt .kind { font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); }
+.dlg .opt h4 { margin: 7px 0 5px; font-size: 19px; font-weight: 600; }
+.dlg .opt p { margin: 0 0 14px; font-size: 14px; line-height: 1.5; color: var(--ink-2, #616161); }
+.dlg .opt ul { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.dlg .opt li { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; line-height: 1.45; }
+.dlg .opt li svg { width: 15px; height: 15px; flex: none; margin-top: 2px; stroke: var(--blue); fill: none; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
+.dlg .opt .btn { margin-top: auto; width: 100%; }
+.dlg .opt .btn.ghost { background: var(--bg); color: var(--blue); border-color: var(--blue); }
+.dlg .opt .btn.ghost:hover { background: var(--blue-light); color: var(--blue-dark); box-shadow: none; transform: none; }
+.dlg .sz { display: block; margin-top: 9px; font-size: 12px; color: var(--ink-2, #616161); }
+.dlg .end { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 14px; flex-wrap: wrap; }
+.dlg .end p { margin: 0; font-size: 13px; color: var(--ink-2, #616161); }
+.dlg .x { border: 1px solid var(--line); border-radius: 6px; background: var(--bg); min-height: 36px; padding: 0 16px; font-size: 14px; cursor: pointer; }
+.dlg .x:hover { background: var(--band); }
+@media (max-width: 720px) { .dlg .two { grid-template-columns: 1fr; } .dlg .sheet { padding: 22px 20px 20px; } }
 </style>
 
 <div class="strip">
@@ -519,6 +546,45 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
   </div>
 </footer>
 
+<div class="dlg" id="pick" role="dialog" aria-modal="true" aria-labelledby="pickh">
+  <div class="sheet">
+    <h3 id="pickh">Which one do you need?</h3>
+    <p class="s">Both are free. They install side by side and keep separate settings, history and logins.</p>
+    <div class="two">
+      <div class="opt on">
+        <span class="kind">For yourself</span>
+        <h4>Nayan</h4>
+        <p>The everyday browser.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span>Ads and trackers blocked from the first minute</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span>Your AI assistant beside the page, on your own login</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span>Every chat in one place</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span>Meaning and translation in your language</span></li>
+        </ul>
+        <a class="btn" href="https://github.com/nayanxtech/nayan/releases/latest/download/Nayan-Setup.exe" download><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download Nayan</a>
+        <span class="sz">Free &middot; 121 MB &middot; Windows 10 / 11</span>
+      </div>
+      <div class="opt">
+        <span class="kind">For an office</span>
+        <h4>Nayan for Work</h4>
+        <p>Everything in Nayan, plus the repetitive part of the day.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span>Learns a task you show it twice, then fills the form</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span>Never presses Save or Delete — that guard cannot be opened</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span>Reads your Excel and your Tally</span></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span>An owner’s report: where the hours actually go</span></li>
+        </ul>
+        <a class="btn ghost" href="https://github.com/nayanxtech/nayan/releases/latest/download/Nayan-for-Work-Setup.exe" download><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download for Work</a>
+        <span class="sz">Free while in testing &middot; 121 MB</span>
+      </div>
+    </div>
+    <div class="end">
+      <p>Not sure? Take <b>Nayan</b> &mdash; you can add <b>Nayan for Work</b> later.</p>
+      <button class="x" data-pickx>Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
 "use strict";
 // The installer always lives at the newest GitHub release, under the same name, so this link never goes stale.
@@ -555,10 +621,20 @@ if ("IntersectionObserver" in window) {
 }
 for (const v of films) v.addEventListener("click", () => { if (v.paused) v.play().catch(() => {}); else v.pause(); });
 
+/* ⚠ Har Download button ab chunne wala panna kholta hai. Sirf #get ke andar wale do
+   button seedhe file par jaate hain - wahan aadmi pehle hi chun chuka hota hai.
+   Pehle ye sab #get tak scroll karte the, aur wo panne me itna neeche hai ki chunav
+   dikhta hi nahi tha. */
+const pick = document.getElementById("pick");
+const openPick = () => { pick.classList.add("on"); document.body.style.overflow = "hidden"; };
+const closePick = () => { pick.classList.remove("on"); document.body.style.overflow = ""; };
 for (const b of document.querySelectorAll("[data-get]")) {
-  if (DOWNLOAD_URL) { b.href = DOWNLOAD_URL; b.setAttribute("download", ""); continue; }
-  b.addEventListener("click", (e) => { if (b.closest("#get")) { e.preventDefault(); toast("The download link is not set yet."); } });
+  if (b.closest("#get")) { if (DOWNLOAD_URL && !b.getAttribute("href").includes("releases")) b.href = DOWNLOAD_URL; continue; }
+  b.addEventListener("click", (e) => { e.preventDefault(); openPick(); });
 }
+pick.addEventListener("click", (e) => { if (e.target === pick || e.target.closest("[data-pickx]")) closePick(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closePick(); });
+for (const a of pick.querySelectorAll("a[href]")) a.addEventListener("click", () => setTimeout(closePick, 400));
 </script>
 
 <script>
@@ -575,5 +651,6 @@ fetch("https://api.github.com/repos/nayanxtech/nayan/releases/latest")
   })
   .catch(() => {});
 </script>
+
 </body>
 </html>
