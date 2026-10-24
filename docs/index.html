@@ -209,6 +209,25 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
 @media (max-width: 900px) { .nx .wrap { grid-template-columns: 1fr; } }
 
 @media (prefers-reduced-motion: reduce) { *, .btn::after { transition: none !important; } }
+
+/* --- Download ke do raaste --- */
+.picks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin: 26px auto 0; max-width: 940px; text-align: left; }
+.pick { display: flex; flex-direction: column; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 26px 26px 24px; }
+.pick.on { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue), 0 10px 30px -18px rgba(0,103,184,.7); }
+.pick .kind { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); }
+.pick h3 { margin: 8px 0 4px; font-size: 22px; font-weight: 600; letter-spacing: -.01em; }
+.pick .who { margin: 0 0 16px; color: var(--ink-2, #616161); font-size: 14.5px; line-height: 1.5; }
+.pick ul { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.pick li { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; }
+.pick li svg { width: 17px; height: 17px; flex: none; margin-top: 3px; stroke: var(--blue); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.pick li b { font-weight: 600; }
+.pick .foot { margin-top: auto; }
+.pick .btn { width: 100%; }
+.pick .btn.ghost { background: var(--bg); color: var(--blue); border-color: var(--blue); }
+.pick .btn.ghost:hover { background: var(--blue-light); color: var(--blue-dark); box-shadow: none; transform: none; }
+.pick .sz { display: block; margin-top: 10px; font-size: 12.5px; color: var(--ink-2, #616161); }
+.bothnote { max-width: 940px; margin: 18px auto 0; text-align: left; font-size: 13.5px; line-height: 1.6; color: var(--ink-2, #616161); }
+@media (max-width: 860px) { .picks { grid-template-columns: 1fr; } }
 </style>
 
 <div class="strip">
@@ -437,13 +456,51 @@ footer .right { margin-left: auto; display: flex; gap: 22px; flex-wrap: wrap; }
 <section class="band get" id="get">
   <div class="wrap">
     <h2>Get Nayan for Windows</h2>
-    <p>One installer, no account, no sign-up. Works on Windows 10 and Windows 11, 64-bit.</p>
-    <a class="btn" href="#get" data-get><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download now</a>
+    <p>Two builds, one browser. They install side by side and keep separate settings, history and logins.</p>
+
+    <div class="picks">
+      <div class="pick on">
+        <span class="kind">For yourself</span>
+        <h3>Nayan</h3>
+        <p class="who">The everyday browser. Free, no account, nothing reported back.</p>
+        <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>Ads and trackers blocked</b> from the first minute, YouTube included.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>Your AI assistant beside the page</b> — on your own ChatGPT, Gemini, Claude, Perplexity or Copilot login.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>Every chat in one place</b> — WhatsApp, Telegram and the rest in the side panel.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>A word explained where you are</b> — meaning and translation in your language.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>Screenshots with an editor</b>, sleeping tabs, Turbo and Data Saver.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>Nayan in your language</b> — the browser’s own screens, not just the web.</span></li>
+        </ul>
+        <div class="foot">
+          <a class="btn" href="https://github.com/nayanxtech/nayan/releases/latest/download/Nayan-Setup.exe" data-get><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download Nayan</a>
+          <span class="sz">Free · 121 MB · Windows 10 / 11, 64-bit</span>
+        </div>
+      </div>
+
+      <div class="pick">
+        <span class="kind">For an office</span>
+        <h3>Nayan for Work</h3>
+        <p class="who">Everything in Nayan, and the repetitive part of the day taken off your people.</p>
+        <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>It watches the work, not the person</b> — how often a task repeats and how long it takes. No values are ever recorded.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>Show it twice, it learns the task</b> — then it fills the form for you.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>It never presses Save or Delete</b>. That guard has no setting and no way around it.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>Reads your Excel and your Tally</b> — the sheet on one side, the form on the other.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>An owner’s report</b> — where the hours go, and what in your system is slowing people down.</span></li>
+        <li><svg viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11"/></svg><span><b>Your team sees it too</b>. Every person can open the same report about themselves, and switch it off.</span></li>
+        </ul>
+        <div class="foot">
+          <a class="btn ghost" href="https://github.com/nayanxtech/nayan/releases/latest/download/Nayan-for-Work-Setup.exe" data-get><svg viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19.5h14"/></svg>Download Nayan for Work</a>
+          <span class="sz">Free while in testing · 121 MB · Windows 10 / 11, 64-bit</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="bothnote">Not sure? Take <b>Nayan</b>. You can install <b>Nayan for Work</b> next to it later &mdash; they are separate apps on the machine and neither touches the other’s settings or logins.</p>
     <div class="specs">
-      <span><b>Windows 10 / 11</b>64-bit</span>
-      <span><b>121 MB</b>Installer</span>
       <span><b>Chromium 152</b>Engine</span>
-      <span><b>Free</b>No account</span>
+      <span><b>No account</b>Ever</span>
+      <span><b>Updates itself</b>After the first run</span>
     </div>
     <p class="note">Already using Chrome or Edge? Your bookmarks and history can come across on the first run.</p>
     <div class="warn">
